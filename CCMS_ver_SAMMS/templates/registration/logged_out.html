@@ -1,9 +1,12 @@
-{% extends 'base.html' %}
+{% extends "login_logout_base.html" %}
+{% load i18n %}
 
-{% block title %}Logout{% endblock %}
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="{% url 'index' %}">{% trans 'Home' %}</a></div>{% endblock %}
 
 {% block content %}
-<h1>Logged Out</h1>
-<p>Thanks for spending some quality time with the Web site today.</p>
-<p><a href="{% url 'login' %}">Log in again</a></p>
+
+<p>{% trans "Thanks for spending some quality time with the Web site today." %}</p>
+
+<p><a href="/accounts/login/?next=/CCMS/">{% trans 'Log in again' %}</a></p>
+
 {% endblock %}

@@ -1,0 +1,26 @@
+{% load static %}
+
+<!doctype html>
+
+<html lang="ja">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+</head>
+
+<body>
+    <h1>{{title}}</h1>
+    <p>{{msg}}</p>
+    
+    <div class="container">
+    <a href="{% url 'login' %}" class="btn-border">Search</a>
+    </div>
+    <br>
+    <div class="container">
+    <a href="{% url 'logout' %}" class="btn-border">Logout</a>
+    </div>
+
+</body>
+</html>
