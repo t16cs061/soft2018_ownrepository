@@ -6,7 +6,6 @@ from django.http import HttpResponse
 @login_required
 def index(request):
     params = {
-        'title':'CCMS-ver.SAMMS',
-        'msg':'メインメニュー',
+        'title':'CCMS ver.SAMMS',
         }
     return render(request, 'CCMS/index.html', params)
