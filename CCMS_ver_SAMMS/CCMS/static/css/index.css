@@ -9,6 +9,7 @@
  
 
 h1 {
+  text-align: center;
 	font-size: 100px;
 	line-height: 200px;
 	font-family: 'JungleFeverRegular', Helvetica, sans-serif;
@@ -52,20 +53,25 @@ table tr{
   font-family: "Yu Gothic", YuGothic, Verdana, 'Hiragino Kaku Gothic ProN','Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, sans-serif;
   text-align: center;
   padding-top: 40px;
+  padding-right: 40px;
+  padding-left: 40px;
 }
 .btn-border {
   display: inline-block;
   max-width: 180px;
-  text-align: left;
+  text-align: center;
   border: 2px solid #9ec34b;
   font-size: 16px;
   color: #9ec34b;
   text-decoration: none;
   font-weight: bold;
   padding: 8px 16px;
+  padding-right: 40px;
+  padding-left: 40px;
   border-radius: 4px;
   transition: .4s;
-    float: left;
+  float: center;
+  width: 160px;
 }
 
 .btn-border:hover {
