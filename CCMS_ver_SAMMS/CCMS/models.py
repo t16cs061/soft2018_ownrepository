@@ -2,10 +2,22 @@ from django.db import models
 from django.core.validators import MinLengthValidator
 
 # Create your models here.
-class employee_master(models.Model):
+class EmployeeMaster(models.Model):
     Code = models.CharField(max_length=6, validators=[MinLengthValidator(6)])
     Pass = models.CharField(max_length=15, validators=[MinLengthValidator(6)])
     AdminFlag = models.BooleanField()
 
     def __str__(self):
         return 'EmployeeCode:' + str(self.Code)
+    
+class MentenanceMaster(models.Model):
+    CarName = models.CharField(max_length=10, validators=[MinLengthValidator(3)])
+    StartDateTime = models.DateField()
+    EndDateTime = models.DateField()
+    MentenanceOverview = models.CharField(max_length=200, validators=[MinLengthValidator(1)])
+    
+    def __str__(self):
+        output = ('メンテナンス概要:' + str(self.MentenanceOverview) + "，" +
+                  '車名:' + str(self.CarName))
+        
+        return  output
