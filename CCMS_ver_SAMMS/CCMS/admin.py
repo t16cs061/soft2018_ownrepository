@@ -1,4 +1,6 @@
 from django.contrib import admin
-from .models import employee_master
+from .models import EmployeeMaster,MentenanceMaster
 
-admin.site.register(employee_master)
+
+admin.site.register(EmployeeMaster)
+admin.site.register(MentenanceMaster)
