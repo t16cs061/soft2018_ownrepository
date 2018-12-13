@@ -11,13 +11,13 @@ class FriendForm(forms.ModelForm):
         model = Friend
         fields = ['car_name',  'use_day','want_go']
         
-   # gender = forms.TypedChoiceField(
-   #     widget=forms.RadioSelect,
-    #    required=True, )
+        # gender = forms.TypedChoiceField(
+        # widget=forms.RadioSelect,
+        # required=True, )
     
-    use_day = forms.DateField(
-        label = 'use_day',
-        widget=forms.SelectDateWidget(years=[x for x in range(1990, 2019)]),
+        use_day = forms.DateField(
+            label = 'use_day',
+            widget=forms.SelectDateWidget(years=[x for x in range(1990, 2019)]),
           
     
     
