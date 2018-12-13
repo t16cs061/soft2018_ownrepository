@@ -7,6 +7,7 @@ import calendar
 from collections import deque
 import datetime
 
+
 @login_required
 def index(request):
     params = {
@@ -32,16 +33,15 @@ def mentenance_check(request):
         'title':'メンテナンス予約確認',
         }
     return render(request, 'CCMS/mentenance/check.html', params)
-
-
+  
 def add(request):
     if (request.method == 'POST'):
         obj = Friend()
         friend = FriendForm(request.POST, instance=obj)
         friend.save()
-        return redirect(to='/CCMS')
+        return redirect(to='/')
     params = {
-        'title': 'Add',
+        'title': '予約フォーム',
         'form': FriendForm(),
         }
     return render(request, 'CCMS/add.html', params)
@@ -51,6 +51,5 @@ def carender(request):
         'title':'ここにカレンダーを作ります',
         }
      return render(request, 'CCMS/carender.html',params)
- 
  
  
