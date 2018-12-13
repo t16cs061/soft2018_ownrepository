@@ -26,7 +26,7 @@ def add(request):
         friend.save()
         return redirect(to='/CCMS')
     params = {
-        'title': 'Add',
+        'title': '予約フォーム',
         'form': FriendForm(),
         }
     return render(request, 'CCMS/add.html', params)

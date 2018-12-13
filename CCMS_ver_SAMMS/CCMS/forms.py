@@ -9,15 +9,17 @@ class HelloForm(forms.Form):
 class FriendForm(forms.ModelForm):
     class Meta:
         model = Friend
-        fields = ['name', 'mail' , 'age', 'birthday']
+        fields = ['car_name',  'use_day','want_go']
         
-    gender = forms.TypedChoiceField(
-        widget=forms.RadioSelect,
-        required=True,
-    )
+   # gender = forms.TypedChoiceField(
+   #     widget=forms.RadioSelect,
+    #    required=True, )
     
-    birthday = forms.DateField(
-        label = 'BIRTHDAY',
+    use_day = forms.DateField(
+        label = 'use_day',
         widget=forms.SelectDateWidget(years=[x for x in range(1990, 2019)]),
+          
+    
+    
     )
     
