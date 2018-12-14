@@ -38,7 +38,7 @@ def add(request):
     if (request.method == 'POST'):
         obj = Friend()
         friend = FriendForm(request.POST, instance=obj)
-        friend.save()
+        friend.save
         return redirect(to='/')
     params = {
         'title': '予約フォーム',
