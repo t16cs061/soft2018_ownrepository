@@ -9,15 +9,26 @@ class HelloForm(forms.Form):
 class FriendForm(forms.ModelForm):
     class Meta:
         model = Friend
-        fields = ['car_name',  'use_day','want_go']
+        fields = ['car_name', 'start_day','end_day' ,'want_go']
         
-        # gender = forms.TypedChoiceField(
-        # widget=forms.RadioSelect,
-        # required=True, )
+    car_name = forms.TypedChoiceField(
+        initial=1,
+        coerce=lambda x: bool(int(x)),
+        choices=(
+            (1, u'サクシード'),
+            (0, u'エブリイ'),
+            (2, u'ソリオ'),
+        ),
+        widget=forms.RadioSelect,
+    )
     
-        use_day = forms.DateField(
-            label = 'use_day',
-            widget=forms.SelectDateWidget(years=[x for x in range(1990, 2019)]),
+    start_day = forms.DateField(
+        label = 'start_day',
+        widget=forms.SelectDateWidget(years=[x for x in range(2018, 2050)]),
+        )
+    end_day = forms.DateField(
+        label = 'end_day',
+        widget=forms.SelectDateWidget(years=[x for x in range(2018, 2050)]),
           
     
     
