@@ -2,7 +2,6 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .forms import FriendForm
-from .models import Friend
 import calendar
 from collections import deque
 import datetime
@@ -38,7 +37,7 @@ def add(request):
     if (request.method == 'POST'):
         obj = Friend()
         friend = FriendForm(request.POST, instance=obj)
-        friend.save
+        friend.save()
         return redirect(to='/')
     params = {
         'title': '予約フォーム',
@@ -47,9 +46,9 @@ def add(request):
     return render(request, 'CCMS/add.html', params)
 
 def carender(request):
-     params = {
+    params = {
         'title':'ここにカレンダーを作ります',
         }
-     return render(request, 'CCMS/carender.html',params)
+    return render(request, 'CCMS/carender.html',params)
  
  

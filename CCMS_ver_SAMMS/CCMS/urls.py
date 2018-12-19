@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 
@@ -11,4 +12,5 @@ urlpatterns = [
     path('mentereserve', views.mentenance_reserve, name='mentereserve'),
     path('mentecheck', views.mentenance_check, name='mentecheck'),
     path('registration/logged_out', auth_views.LogoutView.as_view(), name='logout'),
+    path('admin/', admin.site.urls),
 ]

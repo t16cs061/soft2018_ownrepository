@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinLengthValidator
 
 # Create your models here.
-class EmployeeMaster(models.Model):
+class Employee(models.Model):
     Code = models.CharField(max_length=6, validators=[MinLengthValidator(6)])
     Pass = models.CharField(max_length=15, validators=[MinLengthValidator(6)])
     AdminFlag = models.BooleanField()
@@ -10,7 +10,7 @@ class EmployeeMaster(models.Model):
     def __str__(self):
         return 'EmployeeCode:' + str(self.Code)
     
-class MentenanceMaster(models.Model):
+class Mentenance(models.Model):
     CarName = models.CharField(max_length=10, validators=[MinLengthValidator(3)])
     StartDateTime = models.DateField()
     EndDateTime = models.DateField()
@@ -22,11 +22,10 @@ class MentenanceMaster(models.Model):
         
         return  output
 
-class Friend(models.Model):
+class Friends(models.Model):
     car_name= models.CharField(max_length=1000)
-    start_day = models.DateField()
-    end_day = models.DateField()
-    want_go = models.CharField(max_length=200)
+    use_day = models.DateField()
+    want_go = models.EmailField(max_length=200)
 
     def __str__(self):
         return '<Friend:id =' + str(self.id) + ',' + self.name + '(' + str(self.age) + ')>'
