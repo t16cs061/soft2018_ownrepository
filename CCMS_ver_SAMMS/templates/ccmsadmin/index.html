@@ -1,0 +1,51 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+
+<!doctype html>
+
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+</head>
+
+</body>
+<body>
+    <h1>{{title}}</h1>
+    <p>{{msg}}</p>
+    <!-- Friend	テーブルのレコードを全て表示する -->
+     <form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+            <input type="submit" value="click">
+        </form>
+    <table>
+        <!-- テーブルの見出し -->
+        <tr>
+        <th>ID</th><th>NAME</th><th>GENDER</th><th>MAIL</th><th>AGE</th><th>BIRTHDAY</th>
+        </tr>
+       
+        <!-- dataの要素を一つずつ item に入れるループ -->
+        {% for item in data %}
+        <tr>
+        <td>{{item.id}}</td><td>{{item.name}}</td>
+        <td>{% if item.gender == 0 %}男{% endif %}
+            {% if item.gender == 1 %}女{% endif %}</td>
+        <td>{{item.mail}}</td><td>{{item.age}}</td><td>{{item.birthday}}</td>
+        <td><a href="{% url 'adminedit' item.id %}">Edit</a></td>
+        <td><a href="{% url 'admindelete' item.id %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <div class="container">
+    <a href="{% url 'adminadd' %}" class="btn-border">Add</a>
+    </div>
+    <div class="container">
+    <a href="{% url 'logout' %}" class="btn-border">Logout</a>
+    </div>
+
+</body>
+</html>
