@@ -7,6 +7,10 @@ from django.core.validators import MinLengthValidator
 class EmployeeMaster(models.Model):
     Code = models.CharField(max_length=6, validators=[MinLengthValidator(6)])
     Pass = models.CharField(max_length=15, validators=[MinLengthValidator(6)])
+    Name = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
+    Gender = models.CharField(max_length=1, validators=[MinLengthValidator(1)])
+    Mail = models.CharField(max_length=50, validators=[MinLengthValidator(5)])
+    Age = models.CharField(max_length=2, validators=[MinLengthValidator(2)])
     AdminFlag = models.BooleanField()
 
     def __str__(self):
