@@ -10,6 +10,20 @@
     <script type="text/javascript" src="{%static 'js/ja.js' %}"></script>
 	<meta charset="utf-8">
 	<title>{{title}}</title>
+	
+	<style type="text/css">
+/* 日曜日 */
+.fc-sun {
+    color: red;
+    background-color: #fff0f0;
+}
+  
+/* 土曜日 */
+.fc-sat {
+    color: blue;
+    background-color: #f0f0ff;
+}
+</style>
 </head>
 <body>
 	<h1>{{title}}</h1>
@@ -17,21 +31,41 @@
 	   <div id="calendar">
         <script>
             $('#calendar').fullCalendar({
+
+    
                 adtitable: true,
                 height: 720,
-           
   
                  events: '/events.json',
         selectable: true,
         selectHelper: true,
+        
+
         select: function(data) {
           var str = moment(data).format( 'YYYY/MM/DD' );
           console.log(str);  },
         
-           dayClick: function(date) {
+           dayClick: function(date,jsEvent,view) {
       location.href ="{% url 'add' %}" ;
     },
-              
+
+
+  events: [
+    {
+      title:"go",
+      start: '2018-12-20',
+       
+    },
+    {
+      title: '旅行',
+      start: '2018-12-25T06:00:00',
+      end: '2018-12-30T22:00:00',
+  
+    }
+  ]
+        
+         
+ 
 
             });
           

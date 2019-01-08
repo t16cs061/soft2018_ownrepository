@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinLengthValidator
 
+
 # Create your models here.
 
 #社員マスタ
@@ -111,3 +112,4 @@ class Friend(models.Model):
 
     def __str__(self):
         return '<Friend:id =' + str(self.id) + ',' + self.name + '(' + str(self.age) + ')>'
+    

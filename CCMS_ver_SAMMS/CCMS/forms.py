@@ -29,8 +29,4 @@ class FriendForm(forms.ModelForm):
     end_day = forms.DateField(
         label = 'end_day',
         widget=forms.SelectDateWidget(years=[x for x in range(2018, 2050)]),
-          
-    
-    
     )
-    
