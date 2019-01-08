@@ -5,7 +5,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/fullcalendar.min.css' %}">
     <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/jquery-ui.custom.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
     <script type="text/javascript" src="{%static 'js/ja.js' %}"></script>
 	<meta charset="utf-8">
@@ -21,21 +21,18 @@
                 height: 720,
            
   
-                 events: '/events.json',
-        selectable: true,
-        selectHelper: true,
-        select: function(data) {
-          var str = moment(data).format( 'YYYY/MM/DD' );
-          console.log(str);  },
+                events: '/events.json',
+                selectable: true,
+                selectHelper: true,
+                select: function(data) {
+                    var str = moment(data).format( 'YYYY/MM/DD' );
+                    console.log(str); 
+                },
         
-           dayClick: function(date) {
-      location.href ="{% url 'add' %}" ;
-    },
-              
-
+                dayClick: function(date) {
+                    location.href ="{% url 'add' %}" ;
+                },
             });
-          
-            
         </script>
     </div>
 	
