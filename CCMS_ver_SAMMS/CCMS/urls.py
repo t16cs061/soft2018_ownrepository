@@ -10,5 +10,6 @@ urlpatterns = [
     path('mentenance', views.mentenance, name='mentenance'),
     path('mentereserve', views.mentenance_reserve, name='mentereserve'),
     path('mentecheck', views.mentenance_check, name='mentecheck'),
+    path('mentereserve-detail', views.mentenance_add, name='mentereserve-detail'),
     path('registration/logged_out', auth_views.LogoutView.as_view(), name='logout'),
 ]
