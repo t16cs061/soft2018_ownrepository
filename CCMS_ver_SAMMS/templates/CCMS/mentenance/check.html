@@ -7,10 +7,10 @@
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'css/fullcalendar.min.css' %}">
     <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/jquery-ui.custom.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
-    <script type="text/javascript" src="{%static 'js/ja.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/ja.js' %}"></script>
     <meta charset="utf-8">
     <title>{{title}}</title>
 </head>
@@ -23,6 +23,12 @@
             $('#calendar').fullCalendar({
                 adtitable: true,
                 height: 720,
+                
+                dayClick: function(date, allDay, jsEvent, view) {
+                    //クリックした日付が取れる
+                    alert('Clicked on: ' + date.format());
+                    $(this).css('background-color', 'red');
+                },
             });
         </script>
     </div>
