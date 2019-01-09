@@ -1,5 +1,5 @@
 ・開発プロジェクト<br>
-     社車管理システム(Company cars management system)<br>
+     社車管理システム(Company Cars Management System)<br>
 ・担当チーム<br>
      SAMMS(Team5)<br>
      
