@@ -29,11 +29,8 @@ class FriendForm(forms.ModelForm):
     end_day = forms.DateField(
         label = 'end_day',
         widget=forms.SelectDateWidget(years=[x for x in range(2018, 2050)]),
-          
-    
-    
     )
-    
+
 #車両メンテナンス予定追加用フォーム
 class MentenanceForm(forms.ModelForm):
     class Meta:
