@@ -29,8 +29,8 @@ class CarMaster(models.Model):
 class ServiceRecordMaster(models.Model):
     CarName = models.CharField(max_length=10, validators=[MinLengthValidator(3)])
     EmployeeCode = models.CharField(max_length=6, validators=[MinLengthValidator(6)])
-    StartDateTime = models.DateField()
-    EndDateTime = models.DateField()
+    StartDateTime = models.DateTimeField()
+    EndDateTime = models.DateTimeField()
     StartMileage = models.IntegerField()
     EndMileage = models.IntegerField()
     Destination = models.CharField(max_length=30, validators=[MinLengthValidator(1)])
@@ -46,7 +46,7 @@ class ServiceRecordMaster(models.Model):
 
 #給油記録テーブル    
 class RefuelingRecordMaster(models.Model):
-    DateTime = models.DateField()
+    DateTime = models.DateTimeField()
     SSName = models.CharField(max_length=20, validators=[MinLengthValidator(1)])
     Mileage = models.IntegerField()
     Amount = models.DecimalField(max_digits=5, decimal_places=2)
@@ -60,8 +60,8 @@ class RefuelingRecordMaster(models.Model):
 
 #ETC利用記録テーブル    
 class ETCRecordMaster(models.Model):
-    StartDateTime = models.DateField()
-    EndDateTime = models.DateField()
+    StartDateTime = models.DateTimeField()
+    EndDateTime = models.DateTimeField()
     CarName = models.CharField(max_length=10, validators=[MinLengthValidator(3)])
     EmployeeCode = models.CharField(max_length=6, validators=[MinLengthValidator(6)])
     BoardingIC = models.CharField(max_length=20, validators=[MinLengthValidator(3)])
@@ -78,8 +78,8 @@ class ETCRecordMaster(models.Model):
 class CarReservationMaster(models.Model):
     EmployeeCode = models.CharField(max_length=6, validators=[MinLengthValidator(6)])
     CarName = models.CharField(max_length=10, validators=[MinLengthValidator(3)])
-    StartDateTime = models.DateField()
-    EndDateTime = models.DateField()
+    StartDateTime = models.DateTimeField()
+    EndDateTime = models.DateTimeField()
     Destination = models.CharField(max_length=30, validators=[MinLengthValidator(1)])
     ETCFlag = models.BooleanField()
     
@@ -93,8 +93,8 @@ class CarReservationMaster(models.Model):
 #車両メンテナンス予定テーブル    
 class MentenanceMaster(models.Model):
     CarName = models.CharField(max_length=10, validators=[MinLengthValidator(3)])
-    StartDateTime = models.DateField()
-    EndDateTime = models.DateField()
+    StartDateTime = models.DateTimeField()
+    EndDateTime = models.DateTimeField()
     MentenanceOverview = models.CharField(max_length=200, validators=[MinLengthValidator(1)])
     
     def __str__(self):
@@ -106,8 +106,8 @@ class MentenanceMaster(models.Model):
 #鈴木さんの使用しているFriendクラス->車両予約機能
 class Friend(models.Model):
     car_name= models.CharField(max_length=1000)
-    start_day = models.DateField()
-    end_day = models.DateField()
+    start_day = models.DateTimeField()
+    end_day = models.DateTimeField()
     want_go = models.CharField(max_length=200)
 
     def __str__(self):
