@@ -20,22 +20,43 @@
 
     <div id="calendar">
         <script>
-            $('#calendar').fullCalendar({
-                adtitable: true,
-                height: 720,
-           
-  
-                events: '/events.json',
-                selectable: true,
-                selectHelper: true,
-                select: function(data) {
-                    var str = moment(data).format( 'YYYY/MM/DD' );
-                    console.log(str); 
-                },
-        
-                dayClick: function(date) {
-                    location.href ="{% url 'mentereserve-detail' %}" ;
-                },
+            // ページ読み込み時の処理
+            $(document).ready(function () {
+ 
+                // カレンダーの設定
+                $('#calendar').fullCalendar({
+                    height: 720,
+                    lang: "ja",
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,basicWeek,basicDay'
+                    },
+                    selectable: true,
+                    selectHelper: true,
+                    navLinks: true,
+                    events: {
+                        url: "{% url 'mentereserve-detail' %}",
+                        error: function() {
+                            $('#script-warning').show();
+                        }
+                    },
+                    select: function(start, end) {
+                        var title = prompt("予定タイトル:");
+                        var eventData;
+                        if (title) {
+                            eventData = {
+                                title: title,
+                                start: start,
+                                end: end
+                            };
+                            $('#calendar').fullCalendar('renderEvent', eventData, true);
+                        }
+                        $('#calendar').fullCalendar('unselect');
+                    },
+                    editable: true,
+                    eventLimit: true,
+                });
             });
         </script>
     </div>
