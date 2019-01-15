@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig', #アカウント管理用
     'CCMS', #CCMSアプリケーションを定義
-    'ccmsadmin', #admin用アプリ定義
 ]
 
 MIDDLEWARE = [
