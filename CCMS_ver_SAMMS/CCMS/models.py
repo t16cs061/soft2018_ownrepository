@@ -21,9 +21,11 @@ class EmployeeMaster(models.Model):
 class CarMaster(models.Model):
     Code = models.CharField(max_length=2, validators=[MinLengthValidator(1)])
     CarName = models.CharField(max_length=10, validators=[MinLengthValidator(3)])
+    class Meta:
+        ordering = ('Code', )
 
     def __str__(self):
-        return 'CarCode:' + str(self.Code)
+        return str(self.Code) + ' : ' + str(self.CarName)
 
 #運行記録テーブル    
 class ServiceRecordMaster(models.Model):
