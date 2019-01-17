@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views, calendar
 from django.contrib.auth import views as auth_views
 
 
@@ -11,5 +11,6 @@ urlpatterns = [
     path('mentereserve', views.mentenance_reserve, name='mentereserve'),
     path('mentecheck', views.mentenance_check, name='mentecheck'),
     path('mentereserve-detail', views.mentenance_add, name='mentereserve-detail'),
+    path('getCalendar', calendar.get, name='getCalendar'),
     path('registration/logged_out', auth_views.LogoutView.as_view(), name='logout'),
 ]
