@@ -13,8 +13,15 @@ function initializePage() {
         selectable: true,
         selectHelper: true,
         navLinks: true,
+        events: [
+            {
+                title: 'Long Event',
+                start: '2019-01-07',
+                end: '2019-01-10'
+            },
+        ],
         eventSources: [{
-            url: 'http://localhost:8080/getCalendar',
+            url: 'http://127.0.0.1:8000/getCalendar',
             dataType: 'json',
             async: false,
             type : 'GET',
@@ -22,6 +29,7 @@ function initializePage() {
                 $('#script-warning').show();
             }
         }],
+        
         select: function(start, end, resource) {
             // 日付選択された際のイベント
 
