@@ -105,6 +105,7 @@ class MentenanceMaster(models.Model):
         
         return  output
 
+
 #鈴木さんの使用しているFriendクラス->車両予約機能
 class Friend(models.Model):
     car_name= models.CharField(max_length=1000)

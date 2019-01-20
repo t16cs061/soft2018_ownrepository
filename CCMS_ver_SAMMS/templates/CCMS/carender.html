@@ -1,70 +1,98 @@
 {% load static %}
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="ja">
-<head>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/fullcalendar.min.css' %}">
-    <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
-    <script type="text/javascript" src="{%static 'js/ja.js' %}"></script>
-	<meta charset="utf-8">
-	<title>{{title}}</title>
-	
-	<style type="text/css">
-/* 日曜日 */
-.fc-sun {
-    color: red;
-    background-color: #fff0f0;
-}
-  
-/* 土曜日 */
-.fc-sat {
-    color: blue;
-    background-color: #f0f0ff;
-}
-</style>
-</head>
-<body>
-	<h1>{{title}}</h1>
-	
-	   <div id="calendar">
+   <head>
+        <title>{{title}}</title>
+        <link rel="stylesheet" href="{% static 'css/fullcalendar.min.css' %}"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+        <link rel="stylesheet" href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/build/css/bootstrap-datetimepicker.css">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+        <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/ja.js' %}"></script>
+        <script src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/src/js/bootstrap-datetimepicker.js"></script>
+        <script type="text/javascript" src="{% static 'js/schedule_edit.js' %}"></script>
         <script>
-            $('#calendar').fullCalendar({
-
-    
-                adtitable: true,
-                height: 720,
-                events: '/events.json',
-                selectable: true,
-                selectHelper: true,
-                select: function(data) {
-                var str = moment(data).format( 'YYYY/MM/DD' );
-                console.log(str);  },
-        
-                dayClick: function(date,jsEvent,view) {
-                  location.href ="{% url 'add' %}" ;
-                },
-
-
-                events: [
-                  {
-                    title:"go",
-                    start: '2018-12-20',
-                  },
-                  {
-                    title: '旅行',
-                    start: '2018-12-25T06:00:00',
-                    end: '2018-12-30T22:00:00',
-                  }
-                ]
+            // ページ読み込み時の処理
+            $(document).ready(function () {
+                initializePage();
             });
         </script>
-    </div>
-	
-	<div class="container">
-	<a href="{% url 'add' %}" class="btn-border">車輌予約</a>
-	</div>
-		
-</body>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <h1>{{title}}</h1>
+        <div id='calendar'></div>
+        <div id="inputScheduleForm" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-nm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 id="dialogTitle" class="modal-title">車両予定登録</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div  class="col-md-1">
+                                    <label for="">行き先</label>
+                                    <input id="userCd" type="hidden" value="" />
+                                    <input id="scheduleId" type="hidden" value="" />
+                                </div>
+                                <div class="col-md-5">
+                                    <input id="inputTitle" type="text" class="form-control input-sm ime-active" placeholder="行き先" value="" >
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div  class="col-md-2 required">
+                                    <label for="">日時</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <div class="checkbox" style="margin-top: 0px;">
+                                            <input type="checkbox" id="allDayCheck" onclick="allDayCheckClick(this);" checked/><label for="allDayCheck">終日</label>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="checkbox" style="margin-top: 0px;">
+                                            <input type="checkbox" id="allDayCheck" onclick="ETCUse(this);" checked/><label for="allDayCheck">ETC利用</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-inline">
+                                        <div class="form-group" style="position:relative;">
+                                            <input id="inputYmdFrom" type="text" class="form-control input-sm ymd" value=""/>
+                                            <input id="inputYmdHmFrom" type="text" class="form-control input-sm ymdHm"/> ～
+                                            <input id="inputYmdTo" type="text" class="form-control input-sm ymd" />
+                                            <input id="inputYmdHmTo" type="text" class="form-control input-sm ymdHm" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div  class="col-md-2">
+                                    <label for="">使用車</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <textarea id="inputDescription" class="form-control ime-active" rows="5" placeholder="詳細"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div id="inputError" class="pull-left" style="color:red; padding:5px;"></div>
+                            <button id="registButton" type="button" class="btn btn-primary" onclick="registSchedule();">登録</button>
+                            <button id="updateButton" type="button" class="btn btn-primary" onclick="updateSchedule();">更新</button>
+                            <button id="deleteButton" type="button" class="btn btn-primary" onclick="deleteSchedule();">削除</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <a href="{% url 'logout' %}" class="btn-border">ログアウト</a>
+        </div>
+    </body>
 </html>
