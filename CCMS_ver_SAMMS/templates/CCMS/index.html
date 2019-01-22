@@ -11,10 +11,14 @@
 </head>
 
 <body>
+    {% if user.is_authenticated %}
+    <h3><font color="red">{{ user.get_full_name }}</font> でログイン中</h3>
+    {% endif %}
+
     <h1>{{title}}</h1>
     <p>{{msg}}</p>
-    
-
+  
+  
     <div class="container">
         <div class="row">
             <a href="{% url 'carender' %}" class="btn-border">車輌予約</a>
@@ -37,10 +41,13 @@
     <a href="{% url 'logout' %}" class="btn-border">ログアウト</a>
     </div>
 
+<!-- 管理者としてログインした場合のみ管理者画面へのリンクボタンを表示する -->
+    {% if user.is_staff %}
     <br>
     <div class="container">
     <a href="/admin" class="btn-border">管理者画面へ</a>
     </div>
+    {% endif %}
 
 </body>
 </html>

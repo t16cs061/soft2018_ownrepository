@@ -7,9 +7,9 @@ import calendar
 from collections import deque
 import datetime
 
-from .filters import ServiceRecordFilter 
+#from .filters import ServiceRecordFilter 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django_filters.views import FilterView
+#from django_filters.views import FilterView
 
 @login_required
 def index(request):

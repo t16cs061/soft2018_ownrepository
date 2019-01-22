@@ -4,6 +4,7 @@ from django.core.validators import MinLengthValidator
 
 # Create your models here.
 
+
 #社員マスタ
 class EmployeeMaster(models.Model):
     Code = models.CharField(max_length=6, validators=[MinLengthValidator(6)])

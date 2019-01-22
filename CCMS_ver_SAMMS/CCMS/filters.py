@@ -1,3 +1,4 @@
+'''
 from django_filters import FilterSet
 from django_filters import filters
 
@@ -27,3 +28,4 @@ class ServiceRecordFilter(FilterSet):
 
         model = ServiceRecordMaster
         fields = ('EmployeeCode',)
+'''
