@@ -35,6 +35,9 @@ function initializePage() {
 
             // ダイアログタイトル設定
             $("#dialogTitle").text("スケジュール登録");
+
+            // ダイアログタイトル(メンテナンス予約)設定
+            $("#menteDialogTitle").text("メンテナンス予定登録");
     
             // タイトル初期化
             $("#inputTitle").val("");
@@ -71,7 +74,10 @@ function initializePage() {
     
             // 終日チェックボックス
             $('#allDayCheck').prop("checked", true);
-    
+
+            // メンテナンス車両選択チェックボックス
+            $('#menteCarSelect').buttonset();  
+            
             // 選択された日付をフォームにセット
             // FullCalendar の仕様で、終了が翌日の00:00になるため小細工
             var startYmd = moment(start);
