@@ -1,5 +1,5 @@
 from django import forms
-from .models import Friend, MentenanceMaster
+from .models import Friend, MentenanceMaster,ServiceRecordMaster
 
 
         
@@ -65,3 +65,13 @@ class MentenanceForm(forms.ModelForm):
             }
             )
     )
+     
+OPTION_CHOICES=(
+    ('car_name','車種'),
+    ('start_day','利用開始日'),
+    ('end_day','利用終了日'),
+    ('want_go','目的地')
+    ,)
+class ServiceRecordForm(forms.Form):
+    option = forms.ChoiceField(label='Option',choices = OPTION_CHOICES)
+    search = forms.CharField(required = False)
