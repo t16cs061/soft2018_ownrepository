@@ -64,7 +64,7 @@ def add(request):
 
 def carender(request):
     params = {
-        'title':'ここにカレンダーを作ります',
+        'title':'車両予約',
         'go':'ニコニコ薬局',
         }
     return render(request, 'CCMS/carender.html',params)
