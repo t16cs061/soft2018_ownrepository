@@ -1,15 +1,42 @@
 /* CSRFToken*/
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
+
 $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
+    beforeSend: function (xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
     }
 });
+
+/* 日付フォーマット変換関数 */
+function replaceDate(dateStr) {
+  const regexp = /^([0-9]{2,4})-([0-1][0-9])-([0-3][0-9])(?:( [0-2][0-9]):([0-5][0-9]):([0-5][0-9]))?$/;
+  return dateStr.replace(regexp, (match, year, month, day, hour, minutes, seconds) => {
+    return `${year}-${month}-${day} ${hour}:${minutes}:${seconds}`;
+  });
+}
 
 /* ページ初期処理. */
 function initializePage() {
@@ -177,11 +204,11 @@ function registSchedule() {
         endYmd = endYmd.add(+1, "days");
     }
     var eventData;
-    //if (carName !== "") {
+    if (carName !== "") {
         eventData = {
             title: carName,
-            start: startYmd.format("YYYY-MM-DDTHH:mm:ss"),
-            end: endYmd.format("YYYY-MM-DDTHH:mm:ss"),
+            start: startYmd.format("YYYY-MM-DD HH:mm:ss"),
+            end: endYmd.format("YYYY-MM-DD HH:mm:ss"),
             //allDay: allDayCheck,
             description: $('#inputDescription').val(),
         };
@@ -190,14 +217,16 @@ function registSchedule() {
             type: "POST",
             cache:false,
             data: JSON.stringify(eventData),
-            success: function(jsonResponse) {
-                $('#calendar').fullCalendar('renderEvent', jsonResponse, true);
-                alert(carName + 'のメンテナンスを登録しました。');      
+            success: function() {
+                $('#fullcalendar').fullCalendar( 'refetchEvents' );
+                alert(carName + 'のメンテナンスを登録しました。');
+                
             },
             error: function() {
             }
         });
-    //}
+        location.reload();
+    }
     $('#calendar').fullCalendar('unselect');
 }
     
@@ -297,8 +326,8 @@ function allDayCheckClick(element) {
     else {
         var startYmd = moment(formatNengappi($("#inputYmdFrom").val(), 0));
         var endYmd = moment(formatNengappi($("#inputYmdTo").val(), 0));
-        var startYmdHm = moment(startYmd.format("YYYY-MM-DD") + "T" + moment().format("HH") + ":00:00");
-        var endYmdHm = moment(startYmd.format("YYYY-MM-DD") + "T" + moment().format("HH") + ":00:00").add(1, "hours");
+        var startYmdHm = moment(startYmd.format("YYYY-MM-DD") + " " + moment().format("HH") + ":00:00");
+        var endYmdHm = moment(startYmd.format("YYYY-MM-DD") + " " + moment().format("HH") + ":00:00").add(1, "hours");
         $("#inputYmdHmFrom").val(startYmdHm.format("YYYY年MM月DD日 HH時mm分"));
         $("#inputYmdHmTo").val(endYmdHm.format("YYYY年MM月DD日 HH時mm分"));
     
@@ -311,7 +340,7 @@ function allDayCheckClick(element) {
 function formatNengappi(nengappi, flg) {
     var ret = nengappi.replace("年", "-").replace("月", "-").replace("日", "");
     if (flg == 1){
-        ret = nengappi.replace("年", "-").replace("月", "-").replace("日", "T").replace("時",":").replace("分",":").replace(" ","");
+        ret = nengappi.replace("年", "-").replace("月", "-").replace("日", " ").replace("時",":").replace("分",":").replace(" ","");
     }
     return ret;
 }

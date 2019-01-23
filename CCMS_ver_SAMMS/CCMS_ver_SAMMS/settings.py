@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig', #アカウント管理用
     'CCMS', #CCMSアプリケーションを定義
-    'django_filters',
+    #'django_filters',
 ]
 
 MIDDLEWARE = [
