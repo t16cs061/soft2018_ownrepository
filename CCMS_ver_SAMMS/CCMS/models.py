@@ -99,6 +99,7 @@ class MentenanceMaster(models.Model):
     StartDateTime = models.DateTimeField()
     EndDateTime = models.DateTimeField()
     MentenanceOverview = models.CharField(max_length=200, validators=[MinLengthValidator(1)])
+    AllDay = models.BooleanField()
     
     def __str__(self):
         output = ('メンテナンス概要：' + str(self.MentenanceOverview) + "，" +
