@@ -1,3 +1,16 @@
+/* CSRFToken*/
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
 /* ページ初期処理. */
 function initializePage() {
     // カレンダーの設定
@@ -13,15 +26,8 @@ function initializePage() {
         selectable: true,
         selectHelper: true,
         navLinks: true,
-        events: [
-            {
-                title: 'Long Event',
-                start: '2019-01-07',
-                end: '2019-01-10'
-            },
-        ],
         eventSources: [{
-            url: 'http://127.0.0.1:8000/getCalendar',
+            url: "http://127.0.0.1:8000/getCalendar",
             dataType: 'json',
             async: false,
             type : 'GET',
@@ -74,9 +80,6 @@ function initializePage() {
     
             // 終日チェックボックス
             $('#allDayCheck').prop("checked", true);
-
-            // メンテナンス車両選択チェックボックス
-            $('#menteCarSelect').buttonset();  
             
             // 選択された日付をフォームにセット
             // FullCalendar の仕様で、終了が翌日の00:00になるため小細工
@@ -105,7 +108,7 @@ function initializePage() {
             $("#inputTitle").val(event.title);
             // 備考設定
             $("#inputDescription").val(event.description);
-    
+
             // ボタン制御
             $("#registButton").hide();
             $("#updateButton").show();
@@ -156,9 +159,12 @@ function initializePage() {
         eventLimit: true
     });
 }
-    
+
 /* 予定入力フォームの登録ボタンクリックイベント. */
 function registSchedule() {
+    var elements = document.getElementById("menteCarSelect");
+    var radioNodeList = elements.selectCar;
+    var carName = radioNodeList.value;
     
     var startYmd = moment(formatNengappi($('#inputYmdFrom').val() + "00時00分00", 1));
     var endYmd = moment(formatNengappi($('#inputYmdTo').val() + "00時00分00", 1));
@@ -170,28 +176,28 @@ function registSchedule() {
     if (endYmd.diff(startYmd, 'days') > 0) {
         endYmd = endYmd.add(+1, "days");
     }
-    
     var eventData;
-    if ($('#inputTitle').val()) {
+    //if (carName !== "") {
         eventData = {
-            title: $('#inputTitle').val(),
+            title: carName,
             start: startYmd.format("YYYY-MM-DDTHH:mm:ss"),
             end: endYmd.format("YYYY-MM-DDTHH:mm:ss"),
-            allDay: allDayCheck,
-            description: $('#inputDescription').val()
+            //allDay: allDayCheck,
+            description: $('#inputDescription').val(),
         };
         $.ajax({
-            url: "http://localhost:8080/regist",
+            url: "http://127.0.0.1:8000/registCalendar",
             type: "POST",
+            cache:false,
             data: JSON.stringify(eventData),
             success: function(jsonResponse) {
                 $('#calendar').fullCalendar('renderEvent', jsonResponse, true);
-                alert("予定を登録しました。");
+                alert(carName + 'のメンテナンスを登録しました。');      
             },
             error: function() {
             }
         });
-    }
+    //}
     $('#calendar').fullCalendar('unselect');
 }
     

@@ -51,3 +51,12 @@ td.fc-sat {
 .fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
     float: left;
 }
+
+.button-container {
+    font-family: "Yu Gothic", YuGothic, Verdana, 'Hiragino Kaku Gothic ProN','Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, sans-serif;
+    text-align: center;
+    padding-top: 40px;
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+  

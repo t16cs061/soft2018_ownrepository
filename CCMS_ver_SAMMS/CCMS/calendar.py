@@ -17,7 +17,7 @@ def get(request):
         
         for i in Mente_events:
             event_sub_arr = {}
-            event_sub_arr['title'] = i.CarName
+            event_sub_arr['title'] = i.CarName + ",メンテナンス"
             start_date = datetime.datetime.strptime(str(i.StartDateTime.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
             end_date = datetime.datetime.strptime(str(i.EndDateTime.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
             event_sub_arr['start'] = start_date
@@ -31,6 +31,39 @@ def get(request):
     }
     return render(request,'CCMS/mentenance/reserve.html',context) 
 
+#イベント登録用関数
+def regist(request):
+    if request.POST:
+        postdata = json.loads(request.body.decode())
+    
+        mentenance = MentenanceMaster()
+    
+        mentenance.CarName = postdata.title
+        mentenance.StartDateTime = postdata.start
+        mentenance.end = postdata.end
+        mentenance.MentenanceOverview = postdata.description
+    
+        mentenance.save()
+        
+        event_arr = []
+        Mente_events = MentenanceMaster.objects.all()
+        
+        for i in Mente_events:
+            event_sub_arr = {}
+            event_sub_arr['title'] = i.CarName + ",メンテナンス"
+            start_date = datetime.datetime.strptime(str(i.StartDateTime.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+            end_date = datetime.datetime.strptime(str(i.EndDateTime.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+            event_sub_arr['start'] = start_date
+            event_sub_arr['end'] = end_date
+            event_sub_arr['description'] = i.MentenanceOverview
+            event_arr.append(event_sub_arr)
+        return HttpResponse(json.dumps(event_arr))
+    
+    context = {
+        "events":Mente_events,
+    }
+    return render(request,'CCMS/mentenance/reserve.html',context)
+    
 def getAdd(request):
     add_events = CarReservationMaster.objects.all()
     

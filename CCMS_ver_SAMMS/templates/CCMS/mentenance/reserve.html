@@ -42,14 +42,14 @@
                                 </div>
                                 <div class="col-md-5">
                                     <div class="input-group">
-                                        <div id="menteCarSelect">
-                                            <input type="radio" name="menteCarSelect" value="succeed" id="Succeed" checked="checked"/>
-                                            <label for="succeed" id="label_succeed">サクシード</label>
-                                            <input type="radio" name="menteCarSelect" value="every" id="Every" />
-                                            <label for="every" id="label_every">エブリィ</label>
-                                            <input type="radio" name="menteCarSelect" id="solio" value="Solio"/>
-                                            <label for="solio" id="label_solio">ソリオ</label>
-                                        </div>
+                                        <form id="menteCarSelect">
+                                            <input type="radio" name="selectCar" value="サクシード" checked/>
+                                                <label for="succeed" id="label_succeed">サクシード</label>
+                                            <input type="radio" name="selectCar" value="エブリィ" />
+                                                <label for="every" id="label_every">エブリィ</label>
+                                            <input type="radio" name="selectCar" value="ソリオ" />
+                                                <label for="solio" id="label_solio">ソリオ</label>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +93,11 @@
                 </div>
             </div>
         </div>
-        <div class="container">
+        <br>
+        <div class="button-container">
+            <a href="{% url 'index' %}" class="btn-gradation">Top</a>
+        </div>
+        <div class="button-container">
             <a href="{% url 'logout' %}" class="btn-border">ログアウト</a>
         </div>
     </body>
