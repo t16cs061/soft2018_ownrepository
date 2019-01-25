@@ -20,10 +20,14 @@ def get(request):
             event_sub_arr = {}
             event_sub_arr['title'] = i.CarName + ",メンテナンス"
             start_date = datetime.datetime.strptime(str(i.StartDateTime.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
-            end_date = datetime.datetime.strptime(str(i.EndDateTime.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
-            event_sub_arr['start'] = start_date
-            event_sub_arr['end'] = end_date
+            start_hour = datetime.datetime.strptime(str(i.StartDateTime.time()), "%H:%M:%S").strftime("%H:%M:%S")
+            end_date = datetime.datetime.strptime(str(i.EndDateTime.date()), '%Y-%m-%d').strftime("%Y-%m-%d")
+            end_hour = datetime.datetime.strptime(str(i.EndDateTime.time()), "%H:%M:%S").strftime("%H:%M:%S")
+            event_sub_arr['start'] = start_date + " " + start_hour
+            event_sub_arr['end'] = end_date + " " + end_hour
+            event_sub_arr['allDay'] = i.AllDay
             event_sub_arr['description'] = i.MentenanceOverview
+            
             event_arr.append(event_sub_arr)
         return HttpResponse(json.dumps(event_arr))
 
@@ -40,12 +44,14 @@ def regist(request):
         CarName = postdata.get('title', None)
         Start = postdata.get('start', None)
         End = postdata.get('end', None)
+        AllDay = postdata.get('allDay', None)
         Description = postdata.get('description', None)
         
         mentenance = MentenanceMaster()
         mentenance.CarName = CarName
         mentenance.StartDateTime = Start
         mentenance.EndDateTime = End
+        mentenance.AllDay = AllDay
         mentenance.MentenanceOverview = Description
         mentenance.save()
         

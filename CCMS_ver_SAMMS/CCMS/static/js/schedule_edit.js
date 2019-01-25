@@ -89,7 +89,6 @@ function initializePage() {
             }).modal("show");
 
             // 日付ピッカーの設定
-            $('.ymdHm').hide()
             $('#inputYmdFrom').datetimepicker({locale: 'ja', format : 'YYYY年MM月DD日', useCurrent: false });
             $('#inputYmdTo').datetimepicker({locale: 'ja', format : 'YYYY年MM月DD日', useCurrent: false });
             $('.ymdHm').datetimepicker({
@@ -98,11 +97,11 @@ function initializePage() {
             });
     
             // 開始終了が逆転しないように制御
-            $("#inputYmdFrom").on("dp.change", function (e) {
-                $('#inputYmdTo').data("DateTimePicker").minDate(e.date);
+            $("#inputYmdHmFrom").on("dp.change", function (e) {
+                $('#inputYmdHmTo').data("DateTimePicker").minDate(e.date);
             });
-            $("#inputYmdTo").on("dp.change", function (e) {
-                $('#inputYmdFrom').data("DateTimePicker").maxDate(e.date);
+            $("#inputYmdHmTo").on("dp.change", function (e) {
+                $('#inputYmdHmFrom').data("DateTimePicker").maxDate(e.date);
             });
     
             // 終日チェックボックス
@@ -121,6 +120,15 @@ function initializePage() {
             $('#inputYmdFrom').data("DateTimePicker").date(startYmd.format("YYYY年MM月DD日"));
             $('#inputYmdTo').val(endYmd.format("YYYY年MM月DD日"));
             $('#inputYmdTo').data("DateTimePicker").date(endYmd.format("YYYY年MM月DD日"));
+
+            startYmd = moment(formatNengappi($("#inputYmdFrom").val(), 0));
+            endYmd = moment(formatNengappi($("#inputYmdTo").val(), 0));
+            var startYmdHm = moment(startYmd.format("YYYY-MM-DD") + " " + "00:00");
+            var endYmdHm = moment(startYmd.format("YYYY-MM-DD") + " " + "23:59");
+            $("#inputYmdHmFrom").val(startYmdHm.format("YYYY年MM月DD日 HH時mm分"));
+            $("#inputYmdHmTo").val(endYmdHm.format("YYYY年MM月DD日 HH時mm分"));
+            $('.ymdHm').show();
+            $('.ymd').hide();
         },
         eventClick: function(event) {
             // 予定クリック時のイベント
@@ -193,10 +201,10 @@ function registSchedule() {
     var radioNodeList = elements.selectCar;
     var carName = radioNodeList.value;
     
-    var startYmd = moment(formatNengappi($('#inputYmdFrom').val() + "00時00分00", 1));
-    var endYmd = moment(formatNengappi($('#inputYmdTo').val() + "00時00分00", 1));
+    var startYmd = moment(formatNengappi($('#inputYmdFrom').val(), 1));
+    var endYmd = moment(formatNengappi($('#inputYmdTo').val(), 1)).add(23, "hours").add(59, "minutes");
     var allDayCheck = $('#allDayCheck').prop("checked");
-    if (!allDayCheck) {
+    if (!allDayCheck) { //allDayのチェックがないとき
         startYmd = moment(formatNengappi($('#inputYmdHmFrom').val(), 1));
         endYmd = moment(formatNengappi($('#inputYmdHmTo').val(), 1));
     }
@@ -209,7 +217,7 @@ function registSchedule() {
             title: carName,
             start: startYmd.format("YYYY-MM-DD HH:mm:ss"),
             end: endYmd.format("YYYY-MM-DD HH:mm:ss"),
-            //allDay: allDayCheck,
+            allDay: allDayCheck,
             description: $('#inputDescription').val(),
         };
         $.ajax({
@@ -220,12 +228,11 @@ function registSchedule() {
             success: function() {
                 $('#fullcalendar').fullCalendar( 'refetchEvents' );
                 alert(carName + 'のメンテナンスを登録しました。');
-                
+                location.reload();     
             },
             error: function() {
             }
         });
-        location.reload();
     }
     $('#calendar').fullCalendar('unselect');
 }
@@ -237,8 +244,8 @@ function updateSchedule() {
     var endYmd = moment(formatNengappi($('#inputYmdTo').val() + "00時00分00", 1));
     var allDayCheck = $('#allDayCheck').prop("checked");
     if (!allDayCheck) {
-        startYmd = moment(formatNengappi($('#inputYmdHmFrom').val(), 1));
-        endYmd = moment(formatNengappi($('#inputYmdHmTo').val(), 1));
+        startYmd = moment(formatNengappi($('#inputYmdFrom').val() + "00時00分00", 1));
+        endYmd = moment(formatNengappi($('#inputYmdTo').val() + "00時00分00", 1));
     }
     if (endYmd.diff(startYmd, 'days') > 0) {
         endYmd = endYmd.add(+1, "days");
@@ -284,7 +291,7 @@ function deleteSchedule() {
     var id = $("#scheduleId").val();
     
     var startYmd = moment(formatNengappi($('#inputYmdFrom').val() + "00時00分00", 1));
-    var endYmd = moment(formatNengappi($('#inputYmdTo').val() + "00時00分00", 1));
+    var endYmd = moment(formatNengappi($('#inputYmdTo').val() + "23時59分59", 1));
     var allDayCheck = $('#allDayCheck').prop("checked");
     if (!allDayCheck) {
         startYmd = moment(formatNengappi($('#inputYmdHmFrom').val(), 1));
@@ -320,8 +327,14 @@ function deleteSchedule() {
 /* 終日チェックボックスクリックイベント. */
 function allDayCheckClick(element) {
     if (element && element.checked) {
-        $('.ymdHm').hide();
-        $('.ymd').show();
+        var startYmd = moment(formatNengappi($("#inputYmdFrom").val(), 0));
+        var endYmd = moment(formatNengappi($("#inputYmdTo").val(), 0));
+        var startYmdHm = moment(startYmd.format("YYYY-MM-DD") + " " + "00:00");
+        var endYmdHm = moment(startYmd.format("YYYY-MM-DD") + " " + "23:59");
+        $("#inputYmdHmFrom").val(startYmdHm.format("YYYY年MM月DD日 HH時mm分"));
+        $("#inputYmdHmTo").val(endYmdHm.format("YYYY年MM月DD日 HH時mm分"));
+        $('.ymdHm').show();
+        $('.ymd').hide();
     }
     else {
         var startYmd = moment(formatNengappi($("#inputYmdFrom").val(), 0));
